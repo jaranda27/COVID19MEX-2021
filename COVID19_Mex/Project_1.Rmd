@@ -2,7 +2,7 @@
 title: "Project 1"
 author: "By: Jorge Aranda"
 output: 
-  html_document:
+   html_document:
       toc: true
       toc_float:
         collapsed: true
@@ -33,11 +33,12 @@ open_data_mex <- open_data_mex %>% filter(CLASIFICACION_FINAL %in% c(1,2,3)) %>%
   inner_join(Entities, by=c("ENTIDAD_RES"="CLAVE_ENTIDAD")) 
 ```
 # **Insights into COVID-19 outbreak in Mexico** 
+
+Amidst the final stages of completing my master’s degree in Mexico, I found myself seeking a rewarding project to engage in during my free time, providing a refreshing diversion from the intricacies of lab work, genomes, proteins, and microbiology. Delving into the captivating realm of data analysis, I embarked on a compelling journey to explore the vast potential of statistical tools and programming languages like R. With the COVID-19 pandemic continuing to impact the world, I was inspired to channel my passion for data science towards understanding the dynamics of the virus in Mexico during 2021. This project became an avenue to unravel valuable insights hidden within the vast volumes of COVID-19 data, shedding light on crucial trends, patterns, and potential correlations.
+
 In 2021, Mexico found itself grappling with an ongoing and dynamic battle against the COVID-19 outbreak. The year marked a significant period in the nation's fight against the pandemic, presenting numerous challenges and evolving dynamics. As cases surged and new variants emerged, the country's healthcare system, government, and communities faced immense pressure to respond effectively and mitigate the spread of the virus. Throughout this critical year, Mexico witnessed varying degrees of success and setbacks in controlling the outbreak, prompting the implementation of a range of public health measures and vaccination campaigns. This introduction aims to provide a comprehensive context for understanding the situation of the COVID-19 outbreak in Mexico during 2021, highlighting the key developments, trends and indicators to show the magnitude of the pandemic in the nation.
 
 Under AMLO's term, Mexico was probably the only country in the western hemisphere who kept theirs gates open for regular transit and normality in commercial activities, which somehow helped keep the economy afloat. At what cost though?
-
-image. ![]("https://www.gaceta.unam.mx/wp-content/uploads/2021/03/210301-aca7-f2-aniversario-covid.jpg")
 
 # **COVID-19 in Mexico: Navigating a Challenging Year - 2021 Overview**
 
@@ -62,10 +63,10 @@ df_mxstate_2020 <- df_mxstate_2020 %>%
 
 mx_map <- mxstate_choropleth(df_mxstate_2020,
                      num_colors = 1,
-                     title = "COVID-19 Spread Across the Country in 2022",
+                     title = "COVID-19 Spread Across the Country in 2021",
                      legend= "Infection rate (%)") +
   labs(subtitle = 
-  "Probability of getting infected by COVID-19 in 2022",
+  "Probability of getting infected by COVID-19 in 2021",
   caption = c("Source: Mexican General Direction of Epidemiology",
               "Historic COVID-19 database (2022) ")) + 
   theme(title = element_text(size=17,),
@@ -112,7 +113,7 @@ p1 <- ggplot(data_p1,aes(MES_INGRESO,avg,fill=SEXO)) +
                      name=" Average total cases per day",
                      position = "left") + 
   scale_x_discrete(name="Month") + 
-  labs(title="Confirmed cases during 2022",
+  labs(title="Confirmed cases during 2021",
        subtitle = "Average and Cumulative Confirmed COVID-19 Cases \nper Month in Mexico - 2021") + 
   theme_half_open(font_size = 14) +
   theme(legend.position = "bottom",
@@ -177,14 +178,9 @@ deaths_plot
 deaths <- deaths_sex %>% pull(Total)
 test <- prop.test(deaths,c(rep(sum(deaths),2)))
 
-cases_sex <- open_data_mex_month %>% 
-  group_by(SEXO) %>% 
-  summarise(Total=n()) %>%
-  inner_join(deaths_sex, by="SEXO", suffix=c("_Cases","_Deaths")) %>%
-  summarise(letality= Total_Deaths*100/Total_Cases) 
-
 ```
-Although the number of cases per month in 2021 behaved similar for men a women, there's a significant difference **(p<0.05)** in the number of deaths for each sex derived from COVID-19 infection, resulting in a case fatality rate of 4.4% and 6.81% for female and male respectively, which suggest a significant higher chance of dying by COVID-19 if you were a man in 2021. Nonetheless, it might sound like a dangerous assumption since we'd be ignoring individual aspects of each patient that cause them to end up hospitalized and subsequently die.
+
+In 2021, the monthly distribution of COVID-19 cases showed similar patterns for both men and women. However, a notable distinction emerged regarding the number of deaths for each sex, with a significant difference observed ***(p<0.05)***. The case fatality rate stood at 4.4% for females and 6.81% for males, indicating a substantial higher risk of mortality if infected with COVID-19 as a male in 2021. Nevertheless, it is essential to exercise caution when drawing conclusions, as individual patient factors leading to hospitalization and subsequent death may vary significantly. Therefore, it would be imprudent to make definitive assumptions based solely on gender when analyzing COVID-19 outcomes during this period.
 
 # **The Age-Dependent Dichotomy: Ambulatory vs. Hospitalized Patients in the COVID-19 Landscape**
 
@@ -283,7 +279,7 @@ letality_plot <- letality_rate %>%
   coord_flip() + 
   theme_half_open(font_size=15) + 
   scale_y_continuous(expand = expansion(mult=c(0,0.1))) + 
-  labs(title="Letality rate by age groups",
+  labs(title="Case fatality rate by age groups",
        subtitle="Chances of dying increase drastically after 70 years old",
        xlab="Age group in years")+
   theme(axis.title= element_blank(),
@@ -299,7 +295,7 @@ letality_plot
 ```
 
  
-Even though vaccination efforts has reduced the number of deaths compared to 2020, when pandemic started, we can see that, in a general perspective, people above 60 years old have almost 20% chances of dying due to COVID-19 infection, and it will increase to a 40% when people reach 80 years old. However, it's known that chances of dying are correlated to main comorbilities, the more pre-existing diseases a patient has, the higher the chance of losing the battle. 
+Despite the positive impact of vaccination efforts in reducing COVID-19 deaths compared to the pandemic's onset in 2020, a deeper analysis reveals concerning trends. From a broad perspective, individuals aged 60 and above face nearly a 20% chance of mortality from COVID-19, and this risk escalates to 40% for those aged 80 and older. These statistics underscore the heightened vulnerability of older age groups to severe outcomes. Additionally, the relationship between mortality chances and pre-existing comorbidities becomes evident, as patients with multiple underlying health conditions face a higher risk of succumbing to the infection. Understanding and addressing these risk factors are crucial in implementing targeted measures to protect vulnerable populations and further curb the impact of COVID-19 on public health.
 
 # **Unraveling the Connection: Age-Comorbilities relationship and their Influence on COVID-19 Mortality**
 
@@ -350,7 +346,7 @@ comorb_plot <- comorb %>%
             color='grey30') + 
   theme_half_open(font_size = 15) +
   coord_flip()+ 
-  labs(title="Letality rate and comorbilities",
+  labs(title="Case fatality rate and comorbilities",
        subtitle= paste0("Chances of die by COVID-19 according to your age",
                         "\nand the number of comorbilities")) + 
   scale_fill_manual(values=c("#D2DFF7","#6690DE","#4F6FAB","#2B3D5E")) + 
